@@ -22,9 +22,31 @@ public class Weapon : Collidable
         Debug.Log("Swing");
     }
 
+    protected override void OnCollide(Collider2D coll)
+    {
+        if (coll.name == "Player")
+            return;
+
+        if (coll.tag == "Fighter")
+        {
+            Debug.Log(coll.name);
+            Damage dmg = new Damage
+            {
+                damageAmount = damagePoint,
+                origin = transform.position,
+                pushForce = pushForce
+            };
+
+            coll.SendMessage("ReceiveDamage", dmg);
+
+        }
+    }
+
+
     protected override void Start()
     {
         base.Start();
+
         spriteRenderer = GetComponent<SpriteRenderer>();
 
     }
@@ -37,7 +59,7 @@ public class Weapon : Collidable
         {
             if (Time.time - lastSwing > cooldown)
             {
-                lastSwing = Time.time();
+                lastSwing = Time.time;
                 Swing();
             }
         }

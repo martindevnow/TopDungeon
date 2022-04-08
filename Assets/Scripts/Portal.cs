@@ -9,7 +9,6 @@ public class Portal : Collidable
 
     protected override void OnCollide(Collider2D coll)
     {
-        Debug.Log("Portal entered by: " + coll.name);
 
         if (coll.name == "Player")
         {
